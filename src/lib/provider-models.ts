@@ -1,10 +1,13 @@
-type RunResult =
-  | { resultType: "new_provider"; modelIDs: string[] }
-  | {
-      resultType: "provider_models_diff";
-      newModelIDs: string[];
-      obsoleteModelIDs: string[];
-    };
+interface RunResult {
+  newModelIDs: string[];
+  /*
+   * obsoleteModelIDs will always be empty for "new_provider" resultType, but
+   * keeping it simplifies consumption since you can just iterate over both
+   * arrays without a check, regardless of the resultType.
+   */
+  obsoleteModelIDs: string[];
+  resultType: "new_provider" | "provider_models_diff";
+}
 
 type LatestRun = RunResult & { provider: string; timestamp: string };
 
@@ -23,7 +26,11 @@ export function computeResult(
   fetched: string[]
 ): RunResult | null {
   if (existing === null) {
-    return { resultType: "new_provider", modelIDs: fetched };
+    return {
+      resultType: "new_provider",
+      newModelIDs: fetched,
+      obsoleteModelIDs: [],
+    };
   }
 
   const existingSet = new Set(existing);
