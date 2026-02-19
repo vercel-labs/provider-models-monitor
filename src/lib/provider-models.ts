@@ -1,6 +1,5 @@
 type RunResult =
   | { resultType: "new_provider"; modelIDs: string[] }
-  | { resultType: "provider_models_no_change" }
   | {
       resultType: "provider_models_diff";
       newModelIDs: string[];
@@ -22,7 +21,7 @@ export async function readExistingModels(
 export function computeResult(
   existing: string[] | null,
   fetched: string[]
-): RunResult {
+): RunResult | null {
   if (existing === null) {
     return { resultType: "new_provider", modelIDs: fetched };
   }
@@ -34,7 +33,7 @@ export function computeResult(
   const obsoleteModelIDs = existing.filter((id) => !fetchedSet.has(id));
 
   if (newModelIDs.length === 0 && obsoleteModelIDs.length === 0) {
-    return { resultType: "provider_models_no_change" };
+    return null;
   }
 
   return { resultType: "provider_models_diff", newModelIDs, obsoleteModelIDs };

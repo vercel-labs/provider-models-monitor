@@ -26,10 +26,14 @@ const models: string[] = data.data.map((m) => m.id);
 
 const existing = await readExistingModels("openai");
 const result = computeResult(existing, models);
-const latestRun = await writeOutputFiles({
-  provider: "openai",
-  fetched: models,
-  result,
-});
 
-console.log(JSON.stringify(latestRun, null, 2));
+if (result) {
+  const latestRun = await writeOutputFiles({
+    provider: "openai",
+    fetched: models,
+    result,
+  });
+  console.log(JSON.stringify(latestRun, null, 2));
+} else {
+  console.log("No provider model changes detected for OpenAI.");
+}

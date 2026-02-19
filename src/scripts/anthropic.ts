@@ -27,10 +27,14 @@ const models: string[] = data.data.map((m) => m.id);
 
 const existing = await readExistingModels("anthropic");
 const result = computeResult(existing, models);
-const latestRun = await writeOutputFiles({
-  provider: "anthropic",
-  fetched: models,
-  result,
-});
 
-console.log(JSON.stringify(latestRun, null, 2));
+if (result) {
+  const latestRun = await writeOutputFiles({
+    provider: "anthropic",
+    fetched: models,
+    result,
+  });
+  console.log(JSON.stringify(latestRun, null, 2));
+} else {
+  console.log("No provider model changes detected for Anthropic.");
+}

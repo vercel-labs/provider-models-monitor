@@ -28,10 +28,14 @@ const models: string[] = data.models.map((m) =>
 
 const existing = await readExistingModels("google");
 const result = computeResult(existing, models);
-const latestRun = await writeOutputFiles({
-  provider: "google",
-  fetched: models,
-  result,
-});
 
-console.log(JSON.stringify(latestRun, null, 2));
+if (result) {
+  const latestRun = await writeOutputFiles({
+    provider: "google",
+    fetched: models,
+    result,
+  });
+  console.log(JSON.stringify(latestRun, null, 2));
+} else {
+  console.log("No provider model changes detected for Google.");
+}
