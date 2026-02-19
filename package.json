@@ -1,0 +1,19 @@
+{
+  "name": "provider-models-monitor",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@biomejs/biome": "2.4.0",
+    "@types/bun": "latest",
+    "husky": "^9.1.7",
+    "ultracite": "7.2.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "scripts": {
+    "check": "ultracite check",
+    "fix": "ultracite fix",
+    "prepare": "husky"
+  }
+}
