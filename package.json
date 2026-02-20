@@ -13,6 +13,7 @@
   },
   "scripts": {
     "check": "ultracite check",
+    "typecheck": "tsc --noEmit",
     "fix": "ultracite fix",
     "prepare": "husky"
   }
