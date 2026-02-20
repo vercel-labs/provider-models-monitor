@@ -1,5 +1,6 @@
 import {
   computeResult,
+  fetchModelIDs,
   readExistingModels,
   writeOutputFiles,
 } from "../lib/provider-models";
@@ -11,20 +12,13 @@ if (!apiKey) {
   throw new Error("GOOGLE_API_KEY is not set");
 }
 
-const response = await fetch(
-  `https://generativelanguage.googleapis.com/v1beta/models?pageSize=1000&key=${apiKey}`
-);
-
-if (!response.ok) {
-  throw new Error(
-    `Google API error: ${response.status} ${response.statusText}`
-  );
-}
-
-const data = (await response.json()) as { models: { name: string }[] };
-const models: string[] = data.models.map((m) =>
-  m.name.replace(MODELS_PREFIX_RE, "")
-);
+const models = await fetchModelIDs({
+  url: `https://generativelanguage.googleapis.com/v1beta/models?pageSize=1000&key=${apiKey}`,
+  parseResponse: (data) => {
+    const { models } = data as { models: { name: string }[] };
+    return models.map((m) => m.name.replace(MODELS_PREFIX_RE, ""));
+  },
+});
 
 const existing = await readExistingModels("google");
 const result = computeResult(existing, models);

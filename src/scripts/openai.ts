@@ -1,5 +1,6 @@
 import {
   computeResult,
+  fetchModelIDs,
   readExistingModels,
   writeOutputFiles,
 } from "../lib/provider-models";
@@ -9,20 +10,16 @@ if (!apiKey) {
   throw new Error("OPENAI_API_KEY is not set");
 }
 
-const response = await fetch("https://api.openai.com/v1/models", {
+const models = await fetchModelIDs({
+  url: "https://api.openai.com/v1/models",
   headers: {
     Authorization: `Bearer ${apiKey}`,
   },
+  parseResponse: (data) => {
+    const { data: models } = data as { data: { id: string }[] };
+    return models.map((m) => m.id);
+  },
 });
-
-if (!response.ok) {
-  throw new Error(
-    `OpenAI API error: ${response.status} ${response.statusText}`
-  );
-}
-
-const data = (await response.json()) as { data: { id: string }[] };
-const models: string[] = data.data.map((m) => m.id);
 
 const existing = await readExistingModels("openai");
 const result = computeResult(existing, models);
