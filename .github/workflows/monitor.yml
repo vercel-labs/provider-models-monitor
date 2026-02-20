@@ -82,8 +82,8 @@ jobs:
       #   if: steps.check-changes.outputs.changed == 'true'
       #   uses: gr2m/notifier-action@v1
       #   with:
-      #     app_id: ${{ secrets.APP_ID }}
-      #     private_key: ${{ secrets.APP_PRIVATE_KEY }}
+      #     app_id: ${{ vars.NOTIFIER_GITHUB_APP_ID }}
+      #     private_key: ${{ secrets.NOTIFIER_GITHUB_APP_PRIVATE_KEY }}
       #     event_type: ai_provider_models
       #     event_payload: ${{ steps.payload.outputs.data }}
 
