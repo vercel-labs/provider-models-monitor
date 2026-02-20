@@ -11,6 +11,21 @@ interface RunResult {
 
 type LatestRun = RunResult & { provider: string; timestamp: string };
 
+export async function fetchModelIDs(opts: {
+  url: string;
+  headers?: Record<string, string>;
+  parseResponse: (data: unknown) => string[];
+}): Promise<string[]> {
+  const { url, headers, parseResponse } = opts;
+
+  const response = await fetch(url, headers ? { headers } : undefined);
+  if (!response.ok) {
+    throw new Error(`API error: ${response.status} ${response.statusText}`);
+  }
+
+  return parseResponse(await response.json());
+}
+
 export async function readExistingModels(
   provider: string
 ): Promise<string[] | null> {
