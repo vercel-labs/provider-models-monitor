@@ -71,7 +71,7 @@ export async function writeOutputFiles(opts: {
 
   await Bun.write(
     `provider-models/${provider}.json`,
-    JSON.stringify(sorted, null, 2)
+    `${JSON.stringify(sorted, null, 2)}\n`
   );
 
   const latestRun: LatestRun = {
@@ -81,7 +81,7 @@ export async function writeOutputFiles(opts: {
   };
   await Bun.write(
     `provider-models/${provider}-latest-run.json`,
-    JSON.stringify(latestRun, null, 2)
+    `${JSON.stringify(latestRun, null, 2)}\n`
   );
 
   return latestRun;
