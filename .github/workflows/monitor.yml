@@ -68,7 +68,21 @@ jobs:
         if: steps.check-changes.outputs.changed == 'true' && steps.cpr.outputs.pull-request-number
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --squash
+        # Retry merge up to 5 times, as parallel jobs merging to main may cause "base branch was modified" errors.
+        run: |
+          pr=${{ steps.cpr.outputs.pull-request-number }}
+          merged=false
+          for i in 1 2 3 4 5; do
+            if gh pr merge "$pr" --squash; then
+              merged=true
+              break
+            fi
+            echo "Merge attempt $i failed, retrying in 10s..."
+            sleep 10
+            gh api -X PUT "repos/${{ github.repository }}/pulls/$pr/update-branch" || true
+            sleep 5
+          done
+          $merged
 
       - name: Read notification payload
         if: steps.check-changes.outputs.changed == 'true'
