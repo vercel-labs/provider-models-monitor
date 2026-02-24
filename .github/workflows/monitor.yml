@@ -54,6 +54,15 @@ jobs:
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
 
+      # Read payload before create-pull-request, as that action cleans up uncommitted files from the working directory.
+      - name: Read notification payload
+        if: steps.check-changes.outputs.changed == 'true'
+        id: payload
+        run: |
+          echo "data<<EOF" >> $GITHUB_OUTPUT
+          cat provider-models/${{ matrix.provider }}-latest-run.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Create Pull Request
         if: steps.check-changes.outputs.changed == 'true'
         id: cpr
@@ -68,15 +77,21 @@ jobs:
         if: steps.check-changes.outputs.changed == 'true' && steps.cpr.outputs.pull-request-number
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --squash
-
-      - name: Read notification payload
-        if: steps.check-changes.outputs.changed == 'true'
-        id: payload
+        # Retry merge up to 5 times, as parallel jobs merging to main may cause "base branch was modified" errors.
         run: |
-          echo "data<<EOF" >> $GITHUB_OUTPUT
-          cat provider-models/${{ matrix.provider }}-latest-run.json >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          pr=${{ steps.cpr.outputs.pull-request-number }}
+          merged=false
+          for i in 1 2 3 4 5; do
+            if gh pr merge "$pr" --squash; then
+              merged=true
+              break
+            fi
+            echo "Merge attempt $i failed, retrying in 10s..."
+            sleep 10
+            gh api -X PUT "repos/${{ github.repository }}/pulls/$pr/update-branch" || true
+            sleep 5
+          done
+          $merged
 
       # - name: Dispatch notification
       #   if: steps.check-changes.outputs.changed == 'true'
