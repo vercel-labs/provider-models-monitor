@@ -1,8 +1,8 @@
 name: Monitor Provider Models
 
 on:
-  # schedule:
-  #   - cron: "*/30 * * * *"
+  schedule:
+    - cron: "*/30 * * * *"
   workflow_dispatch:
 
 concurrency:
@@ -93,19 +93,14 @@ jobs:
           done
           $merged
 
-      # - name: Dispatch notification
-      #   if: steps.check-changes.outputs.changed == 'true'
-      #   uses: gr2m/notifier-action@v1
-      #   with:
-      #     app_id: ${{ vars.NOTIFIER_GITHUB_APP_ID }}
-      #     private_key: ${{ secrets.NOTIFIER_GITHUB_APP_PRIVATE_KEY }}
-      #     event_type: ai_provider_models
-      #     event_payload: ${{ steps.payload.outputs.data }}
-
-      - name: Echo notification payload
+      - name: Dispatch notification
         if: steps.check-changes.outputs.changed == 'true'
-        run: |
-          echo "Notification payload: ${{ steps.payload.outputs.data }}"
+        uses: gr2m/notifier-action@v1
+        with:
+          app_id: ${{ vars.NOTIFIER_GITHUB_APP_ID }}
+          private_key: ${{ secrets.NOTIFIER_GITHUB_APP_PRIVATE_KEY }}
+          event_type: ai_provider_models
+          event_payload: ${{ steps.payload.outputs.data }}
 
       - name: No changes
         if: steps.check-changes.outputs.changed == 'false'
