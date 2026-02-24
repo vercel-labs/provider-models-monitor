@@ -1,0 +1,97 @@
+name: Monitor Provider Models
+
+on:
+  # schedule:
+  #   - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: monitor-providers
+  cancel-in-progress: false
+
+jobs:
+  create-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      # Build a JSON array of provider names based on src/scripts/*.ts files
+      - id: set-matrix
+        run: |
+          matrix=$(ls src/scripts/*.ts | grep -v '\.test\.ts$' | xargs -I{} basename {} .ts | jq -R . | jq -s .)
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+
+  monitor:
+    needs: create-matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        provider: ${{ fromJson(needs.create-matrix.outputs.matrix) }}
+      fail-fast: false
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Run provider script
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+        run: bun run src/scripts/${{ matrix.provider }}.ts
+
+      - id: check-changes
+        run: |
+          if git diff --name-only HEAD -- 'provider-models/*.json' | grep -q . \
+            || git ls-files --others --exclude-standard -- 'provider-models/*.json' | grep -q .; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request
+        if: steps.check-changes.outputs.changed == 'true'
+        id: cpr
+        uses: peter-evans/create-pull-request@v8
+        with:
+          add-paths: provider-models/*.json
+          branch: update-models/${{ matrix.provider }}
+          title: "chore: update ${{ matrix.provider }} models"
+          commit-message: "chore: update ${{ matrix.provider }} models"
+
+      - name: Merge Pull Request
+        if: steps.check-changes.outputs.changed == 'true' && steps.cpr.outputs.pull-request-number
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --squash
+
+      - name: Read notification payload
+        if: steps.check-changes.outputs.changed == 'true'
+        id: payload
+        run: |
+          echo "data<<EOF" >> $GITHUB_OUTPUT
+          cat provider-models/${{ matrix.provider }}-latest-run.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      # - name: Dispatch notification
+      #   if: steps.check-changes.outputs.changed == 'true'
+      #   uses: gr2m/notifier-action@v1
+      #   with:
+      #     app_id: ${{ vars.NOTIFIER_GITHUB_APP_ID }}
+      #     private_key: ${{ secrets.NOTIFIER_GITHUB_APP_PRIVATE_KEY }}
+      #     event_type: ai_provider_models
+      #     event_payload: ${{ steps.payload.outputs.data }}
+
+      - name: Echo notification payload
+        if: steps.check-changes.outputs.changed == 'true'
+        run: |
+          echo "Notification payload: ${{ steps.payload.outputs.data }}"
+
+      - name: No changes
+        if: steps.check-changes.outputs.changed == 'false'
+        run: echo "No model changes identified for ${{ matrix.provider }}"
