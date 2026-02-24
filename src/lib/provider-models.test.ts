@@ -115,7 +115,7 @@ describe("writeOutputFiles", () => {
 
     expect(writeSpy).toHaveBeenCalledWith(
       "provider-models/anthropic.json",
-      JSON.stringify(["model-a", "model-b", "model-c"], null, 2)
+      `${JSON.stringify(["model-a", "model-b", "model-c"], null, 2)}\n`
     );
   });
 
