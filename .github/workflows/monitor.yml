@@ -54,6 +54,15 @@ jobs:
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
 
+      # Read payload before create-pull-request, as that action cleans up uncommitted files from the working directory.
+      - name: Read notification payload
+        if: steps.check-changes.outputs.changed == 'true'
+        id: payload
+        run: |
+          echo "data<<EOF" >> $GITHUB_OUTPUT
+          cat provider-models/${{ matrix.provider }}-latest-run.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: Create Pull Request
         if: steps.check-changes.outputs.changed == 'true'
         id: cpr
@@ -83,14 +92,6 @@ jobs:
             sleep 5
           done
           $merged
-
-      - name: Read notification payload
-        if: steps.check-changes.outputs.changed == 'true'
-        id: payload
-        run: |
-          echo "data<<EOF" >> $GITHUB_OUTPUT
-          cat provider-models/${{ matrix.provider }}-latest-run.json >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
 
       # - name: Dispatch notification
       #   if: steps.check-changes.outputs.changed == 'true'
