@@ -1,0 +1,17 @@
+{
+  "resultType": "new_provider",
+  "newModelIDs": [
+    "claude-sonnet-4-6",
+    "claude-opus-4-6",
+    "claude-opus-4-5-20251101",
+    "claude-haiku-4-5-20251001",
+    "claude-sonnet-4-5-20250929",
+    "claude-opus-4-1-20250805",
+    "claude-opus-4-20250514",
+    "claude-sonnet-4-20250514",
+    "claude-3-haiku-20240307"
+  ],
+  "obsoleteModelIDs": [],
+  "provider": "anthropic",
+  "timestamp": "2026-02-24T19:26:56.753Z"
+}
