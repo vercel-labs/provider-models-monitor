@@ -1,21 +1,10 @@
 {
-  "resultType": "new_provider",
-  "newModelIDs": [
-    "grok-2-vision-1212",
-    "grok-3",
-    "grok-3-mini",
-    "grok-4-0709",
-    "grok-4-1-fast-non-reasoning",
-    "grok-4-1-fast-reasoning",
-    "grok-4-fast-non-reasoning",
-    "grok-4-fast-reasoning",
-    "grok-code-fast-1",
+  "resultType": "provider_models_diff",
+  "newModelIDs": [],
+  "obsoleteModelIDs": [
     "grok-2-image-1212",
-    "grok-imagine-image",
-    "grok-imagine-image-pro",
-    "grok-imagine-video"
+    "grok-2-vision-1212"
   ],
-  "obsoleteModelIDs": [],
   "provider": "xai",
-  "timestamp": "2026-02-24T19:27:00.605Z"
+  "timestamp": "2026-03-03T05:03:43.028Z"
 }
