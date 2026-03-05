@@ -1,9 +1,12 @@
 {
   "resultType": "provider_models_diff",
   "newModelIDs": [
-    "gpt-5.3-chat-latest"
+    "gpt-5.4",
+    "gpt-5.4-2026-03-05",
+    "gpt-5.4-pro",
+    "gpt-5.4-pro-2026-03-05"
   ],
   "obsoleteModelIDs": [],
   "provider": "openai",
-  "timestamp": "2026-03-03T18:23:26.231Z"
+  "timestamp": "2026-03-05T18:16:20.800Z"
 }
