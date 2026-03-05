@@ -26,7 +26,7 @@ const result = computeResult(existing, models);
 
 if (result) {
   const latestRun = await writeOutputFiles({
-    provider: "together",
+    provider: "togetherai",
     fetched: models,
     result,
   });
