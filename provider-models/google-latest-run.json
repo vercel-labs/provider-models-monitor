@@ -1,9 +1,9 @@
 {
   "resultType": "provider_models_diff",
   "newModelIDs": [
-    "gemini-3.1-flash-lite-preview"
+    "gemini-embedding-2-preview"
   ],
   "obsoleteModelIDs": [],
   "provider": "google",
-  "timestamp": "2026-03-03T15:24:38.861Z"
+  "timestamp": "2026-03-10T16:28:43.409Z"
 }
