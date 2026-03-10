@@ -2,9 +2,12 @@
   "resultType": "provider_models_diff",
   "newModelIDs": [],
   "obsoleteModelIDs": [
-    "grok-2-image-1212",
-    "grok-2-vision-1212"
+    "grok-3",
+    "grok-3-mini",
+    "grok-4-0709",
+    "grok-4-fast-non-reasoning",
+    "grok-4-fast-reasoning"
   ],
   "provider": "xai",
-  "timestamp": "2026-03-03T05:03:43.028Z"
+  "timestamp": "2026-03-10T22:45:04.332Z"
 }
