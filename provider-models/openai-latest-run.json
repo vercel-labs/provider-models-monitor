@@ -1,9 +1,12 @@
 {
   "resultType": "provider_models_diff",
-  "newModelIDs": [],
-  "obsoleteModelIDs": [
-    "souffle-api-v0-api-ev3"
+  "newModelIDs": [
+    "gpt-5.4-mini",
+    "gpt-5.4-nano-2026-03-17",
+    "gpt-5.4-nano",
+    "gpt-5.4-mini-2026-03-17"
   ],
+  "obsoleteModelIDs": [],
   "provider": "openai",
-  "timestamp": "2026-03-05T23:10:54.040Z"
+  "timestamp": "2026-03-17T17:28:49.441Z"
 }
