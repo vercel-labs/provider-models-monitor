@@ -1,9 +1,9 @@
 {
   "resultType": "provider_models_diff",
-  "newModelIDs": [
+  "newModelIDs": [],
+  "obsoleteModelIDs": [
     "gpt-5.4-mini-2026-03-17-batch"
   ],
-  "obsoleteModelIDs": [],
   "provider": "openai",
-  "timestamp": "2026-03-18T23:13:45.809Z"
+  "timestamp": "2026-03-19T00:46:17.623Z"
 }
