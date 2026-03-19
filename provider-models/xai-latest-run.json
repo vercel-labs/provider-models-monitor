@@ -1,13 +1,15 @@
 {
   "resultType": "provider_models_diff",
   "newModelIDs": [
-    "grok-3",
-    "grok-3-mini",
-    "grok-4-0709",
-    "grok-4-fast-non-reasoning",
-    "grok-4-fast-reasoning"
+    "grok-4.20-0309-non-reasoning",
+    "grok-4.20-0309-reasoning",
+    "grok-4.20-multi-agent-0309"
   ],
-  "obsoleteModelIDs": [],
+  "obsoleteModelIDs": [
+    "grok-4.20-beta-0309-non-reasoning",
+    "grok-4.20-beta-0309-reasoning",
+    "grok-4.20-multi-agent-beta-0309"
+  ],
   "provider": "xai",
-  "timestamp": "2026-03-11T17:49:35.859Z"
+  "timestamp": "2026-03-19T05:07:41.260Z"
 }
