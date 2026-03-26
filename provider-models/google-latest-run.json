@@ -1,10 +1,9 @@
 {
   "resultType": "provider_models_diff",
   "newModelIDs": [
-    "lyria-3-clip-preview",
-    "lyria-3-pro-preview"
+    "gemini-3.1-flash-live-preview"
   ],
   "obsoleteModelIDs": [],
   "provider": "google",
-  "timestamp": "2026-03-25T14:34:30.932Z"
+  "timestamp": "2026-03-26T14:40:13.262Z"
 }
