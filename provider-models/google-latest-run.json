@@ -1,9 +1,9 @@
 {
   "resultType": "provider_models_diff",
-  "newModelIDs": [
-    "veo-3.1-lite-generate-preview"
+  "newModelIDs": [],
+  "obsoleteModelIDs": [
+    "gemini-2.5-flash-lite-preview-09-2025"
   ],
-  "obsoleteModelIDs": [],
   "provider": "google",
-  "timestamp": "2026-03-31T14:38:56.950Z"
+  "timestamp": "2026-04-01T23:46:52.208Z"
 }
