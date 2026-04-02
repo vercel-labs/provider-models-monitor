@@ -1,10 +1,10 @@
 {
   "resultType": "provider_models_diff",
-  "newModelIDs": [
+  "newModelIDs": [],
+  "obsoleteModelIDs": [
     "gemma-4-26b-a4b-it",
     "gemma-4-31b-it"
   ],
-  "obsoleteModelIDs": [],
   "provider": "google",
-  "timestamp": "2026-04-02T15:28:55.858Z"
+  "timestamp": "2026-04-02T15:56:01.367Z"
 }
