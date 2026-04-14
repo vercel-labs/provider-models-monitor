@@ -1,10 +1,9 @@
 {
   "resultType": "provider_models_diff",
   "newModelIDs": [
-    "gemma-4-26b-a4b-it",
-    "gemma-4-31b-it"
+    "gemini-robotics-er-1.6-preview"
   ],
   "obsoleteModelIDs": [],
   "provider": "google",
-  "timestamp": "2026-04-02T16:29:18.952Z"
+  "timestamp": "2026-04-14T15:33:23.718Z"
 }
