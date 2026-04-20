@@ -1,9 +1,9 @@
 {
   "resultType": "provider_models_diff",
-  "newModelIDs": [
-    "claude-opus-4-7"
+  "newModelIDs": [],
+  "obsoleteModelIDs": [
+    "claude-3-haiku-20240307"
   ],
-  "obsoleteModelIDs": [],
   "provider": "anthropic",
-  "timestamp": "2026-04-16T14:43:58.465Z"
+  "timestamp": "2026-04-20T18:30:37.268Z"
 }
